@@ -1,0 +1,54 @@
+// This code shows and rotates the pattern (10001000) right or stops based on the
+//input coming from the user. The pattern is to be shown on the LEDs.
+int stop = 0;
+int initial = 0b01110111; //Initial pattern. Note that 0 means on, while 1 means off.
+int right = 1;
+int dir = 0;
+int mem = 0b11111111;
+void main(){
+ TRISD = 0x0; // All bits of PORTD are output. ~0 means output~
+// Three bits of PORTA are inputs but only one of them is used in this example as a
+//stop button, others are redundant. ~1 means input~
+TRISA = 0b111;
+// From PORTD, outputs will be sent to LEDs. Make sure that you physically connected
+//them by looking at the Figure 1, in the directives document.
+// Initial pattern is sent to the LEDs through PORTD.
+ PORTD = initial;
+ while(1){
+
+   // Stop button is the push-button which is labeled as 1 on the board.
+       if(PORTABits.RA1 == 0){ // If stop button clicked
+       stop = !stop;
+       
+       }
+
+         // Stop button is the push-button which is labeled as 1 on the board.
+       if(PORTABits.RA5 == 0){ // If stop button clicked
+       dir = !dir;
+
+       }
+
+       if(dir && !stop){
+
+         PORTD = mem = (PORTD << 1) | (PORTD >> 7);
+         
+       }
+       else if(!dir && !stop){
+
+        PORTD = mem = (PORTD >> 1) | (PORTD << 7);
+
+       }
+
+
+     else {
+     //Do not shift anything, that is, stop.
+    // PORTD = mem;
+     //PORTD = 0b11111111;
+     PORTD = mem;
+     }
+
+
+   delay_ms(1000); // Wait 1 second.
+   }
+}
+// Rotation ends here

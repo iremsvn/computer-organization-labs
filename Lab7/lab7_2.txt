@@ -1,0 +1,76 @@
+int sevenSegment[]={0X3F, 0X06, 0X5B, 0X4F, 0X66, 0X6D, 0X7D,
+                             0X07, 0X7F, 0X6F};
+int elapsedTime = 0;
+int x = 0;
+int num1;
+int num2;
+int num3;
+int num4;
+int result = 1;
+void main(){
+
+     TRISC=0X00;
+     TRISD=0X00;
+     num1 = 0;
+     PORTD= sevenSegment[num1];
+     num2 = 0;
+     PORTD= sevenSegment[num2];
+     num3 = 0;
+     PORTD= sevenSegment[num3];
+     num4 = 0;
+     PORTD= sevenSegment[num4];
+     delay_ms(10);
+     while(1){
+              while (elapsedTime < 150)
+              {
+                  elapsedTime = elapsedTime + 1;
+
+                  PORTD= sevenSegment[num1];
+                  PORTCBits.RC4=1;
+                  delay_ms(2);
+                  PORTCBits.RC4=0;
+                  
+
+                  PORTD= sevenSegment[num2];
+                  PORTCBits.RC3=1;
+                  delay_ms(2);
+                  PORTCBits.RC3=0;
+                  
+
+                  PORTD= sevenSegment[num3];
+                  PORTCBits.RC2=1;
+                  delay_ms(2);
+                  PORTCBits.RC2=0;
+                  
+
+                  PORTD= sevenSegment[num4];
+                  PORTCBits.RC1=1;
+                  delay_ms(2);
+                  PORTCBits.RC1=0;
+
+
+              }
+                  if( x >= 21 )
+                  {
+                    x = 1;
+                  }
+                  else 
+                  {
+                    x = x + 1;
+                  }
+                  result = x * x * x;
+                  num1 = result % 10;
+                  result = result / 10;
+                  
+                  num2 = result % 10;
+                  result = result / 10;
+                  
+                  num3 = result % 10;
+                  result = result / 10;
+                  
+                  num4 = result % 10;
+                  
+                  elapsedTime = 0;
+     }
+
+}

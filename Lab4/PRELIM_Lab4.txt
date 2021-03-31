@@ -1,0 +1,35 @@
+
+
+#if s0 is 1 ble works properly, and if s1 is 1 push works properly
+
+addi $t0,$0,10
+addi $t1,$0,15
+ble $t0,$t1,true
+addi $s0,$0,0
+j false
+true:
+	addi $s0,$0,1
+false:
+
+addi $t0,$0,100
+addi $t1,$t0,111
+sub $a0,$t1,$t0
+jal test
+add $s1,$v0,$0
+
+
+test:
+	addi $sp,$sp,-8
+	sw $t0,0($sp)
+	sw $t1,4($sp)
+	push $a0
+	lw $t2,0($sp)
+	beq $t2,$a0,works
+	addi $v0,$0,0
+	j notworks
+	works:
+		addi $v0,$0,1
+	notworks:
+	
+	addi $sp,$sp,8
+	jr $ra
